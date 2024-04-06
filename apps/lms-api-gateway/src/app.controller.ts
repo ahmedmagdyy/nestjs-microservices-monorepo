@@ -46,4 +46,9 @@ export class AppController {
   getCourseLessons(@Param() id) {
     return this.appService.getCourseLessons(id);
   }
+
+  @Post('courses/:id/order')
+  orderCourse(@Param() param, @Body() data: { user: string }) {
+    return this.appService.orderCourse(param.id, data.user);
+  }
 }

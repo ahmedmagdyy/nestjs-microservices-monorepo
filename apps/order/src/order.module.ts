@@ -1,9 +1,9 @@
-import { LessonController } from './lesson.controller';
 import { Module } from '@nestjs/common';
-import { LessonService } from './lesson.service';
+import { OrderController } from './order.controller';
+import { OrderService } from './order.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LessonSchema } from './schemas/lesson.schema';
+import { OrderSchema } from './schemas/order.schema';
 
 @Module({
   imports: [
@@ -13,12 +13,12 @@ import { LessonSchema } from './schemas/lesson.schema';
     MongooseModule.forRoot(process.env.MONGODB_URI),
     MongooseModule.forFeature([
       {
-        name: 'Lesson',
-        schema: LessonSchema,
+        name: 'Order',
+        schema: OrderSchema,
       },
     ]),
   ],
-  controllers: [LessonController],
-  providers: [LessonService],
+  controllers: [OrderController],
+  providers: [OrderService],
 })
-export class LessonModule {}
+export class OrderModule {}

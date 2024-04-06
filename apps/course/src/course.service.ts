@@ -11,6 +11,7 @@ export class CourseService {
   constructor(
     @InjectModel('Course') private readonly courseModel: Model<CourseModel>,
     @Inject('LESSON_SERVICE') private readonly lessonService: ClientProxy,
+    @Inject('ORDER_SERVICE') private readonly orderService: ClientProxy,
   ) {}
 
   createCourse(data: CreateCourseDto) {
@@ -27,9 +28,14 @@ export class CourseService {
       this.lessonService.send({ cmd: 'get-course-lessons' }, { id }),
     );
 
+    const courseOrders = await firstValueFrom(
+      this.orderService.send({ cmd: 'get-orders-by-course' }, { courseId: id }),
+    );
+
     return {
       course,
       lessons: courseLessons,
+      orders: courseOrders,
     };
   }
 }

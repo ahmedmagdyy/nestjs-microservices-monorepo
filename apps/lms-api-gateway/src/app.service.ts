@@ -8,9 +8,10 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class AppService {
   constructor(
-    @Inject('COURSE_SERVICE') private courseClient: ClientProxy,
-    @Inject('TEACHER_SERVICE') private teacherClient: ClientProxy,
-    @Inject('LESSON_SERVICE') private lessonClient: ClientProxy,
+    @Inject('COURSE_SERVICE') private readonly courseClient: ClientProxy,
+    @Inject('TEACHER_SERVICE') private readonly teacherClient: ClientProxy,
+    @Inject('LESSON_SERVICE') private readonly lessonClient: ClientProxy,
+    @Inject('ORDER_SERVICE') private readonly orderClient: ClientProxy,
   ) {}
 
   getHello(): string {
@@ -38,5 +39,9 @@ export class AppService {
       this.lessonClient.send({ cmd: 'get-course-lessons' }, id),
     );
     return { lessons };
+  }
+
+  orderCourse(id, user) {
+    return this.orderClient.send({ cmd: 'order-course' }, { course: id, user });
   }
 }
