@@ -3,19 +3,20 @@ import { TeacherController } from './teacher.controller';
 import { TeacherService } from './teacher.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TeacherSchema } from './schemas/teacher.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigurableModuleBuilder],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forFeature([
+      {
+        name: 'Teacher',
+        schema: TeacherSchema,
+      },
+    ]),
   ],
   controllers: [TeacherController],
   providers: [TeacherService],
